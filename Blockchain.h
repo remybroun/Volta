@@ -2,6 +2,7 @@
 #define BLOCKCHAIN_H
 #include <cstdint>
 #include <vector>
+#include <queue>
 #include "Block.h"
 #include "Transaction.h"
 
@@ -12,16 +13,16 @@ class Blockchain {
 public:
     Blockchain();
     void AddBlock(Block bNew);
-    void AddTransaction(Transaction tr);
-
+    void addTransaction(Transaction tr);
+    void addTransactions(vector<Transaction> trs);
 private:
     uint32_t _nDifficulty;
     vector<Block> _vChain;
 
     Block _GetLastBlock() const;
-    Block _GetCurrentBlock() const;
-    vector<Transaction> listOfTransactions;
-    void addTransaction(Transaction tr);
+    Block * _GetCurrentBlock();
+    queue<Transaction> listOfTransactions;
+
 
 };
 

@@ -14,26 +14,30 @@ void Blockchain::AddBlock(Block bNew) {
 Block Blockchain::_GetLastBlock() const {
     return _vChain.back();
 }
-
+Block * Blockchain::_GetCurrentBlock() {
+    return &_vChain.back();
+}
 
 void Blockchain::addTransaction(Transaction tr){
 
-
-    listOfTransactions.push_back(tr);
-
-//	switch listOfTransactions.size(){
-	//	case:
-
-//	}
-//	if (listOfTransactions.size())
-//	{
-		/* code */
-//	}
-
-//	if (listOfTransactions.size() < BLOCKSIZE)
-//	{
-//		listOfTransactions.push_back(tr);
-//	}else{
-		// createNewBlock() with transactions.
-//	}
+    listOfTransactions.push(tr);
+    if (listOfTransactions.size() >= BLOCKSIZE) {
+        for (int i = 0; i<BLOCKSIZE; i++) {
+            _GetCurrentBlock()->addTransaction(listOfTransactions.front());
+            listOfTransactions.pop();
+        }
+        _GetCurrentBlock()->calculateMerkle();
+        int nextBlockNum = _GetLastBlock().getIndex()+1;
+        string data = "Block number " + to_string(nextBlockNum);
+        AddBlock(Block(nextBlockNum,data));
+    }
 }
+
+void Blockchain::addTransactions(vector<Transaction> trs){
+    
+    
+    for (int i = 0; i<trs.size(); i++) {
+        listOfTransactions.push(trs[i]);
+    }
+}
+

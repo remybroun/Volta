@@ -26,7 +26,6 @@ void Block::MineBlock(uint32_t nDifficulty) {
     do {
         _nNonce++;
         _sHash = _CalculateHash();
-        cout<<"Attempt"<<_nNonce<<endl<<_sHash<<endl;
     } while (_sHash.substr(0, nDifficulty) != str);
 
     cout << "Block mined: " << _sHash << endl;
@@ -47,6 +46,7 @@ void Block::addTransaction(Transaction _tr){
 
     }
 }
+
 
 vector<string> merkleTableDivider(vector<string> leaves){
 
@@ -75,16 +75,11 @@ void Block::calculateMerkle(){
     }
 
     while(trHashes.size() > 2){
-        for(int i = 0; i < trHashes.size(); i++){
-            cout<<trHashes[i]<<endl;
-        }
-
         trHashes = merkleTableDivider(trHashes);
-        cout<<"newLevel"<<endl;
     }
-    string merkleroot = trHashes[0];
-    cout<<"merkle root : "<<merkleroot<<endl;
-
+    
+    merkleHash = trHashes[0];
+    cout<<"merkle root : "<<merkleHash<<endl;
 }
 
 unsigned int Block::numberOfTransactions(){
