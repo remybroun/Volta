@@ -5,7 +5,7 @@
 #include "Transaction.h"
 
 
-Block::Block(uint32_t nIndexIn, const string &sDataIn) : _nIndex(nIndexIn), _sData(sDataIn) {
+Block::Block(uint32_t nIndexIn) : _nIndex(nIndexIn){
     _nNonce = -1;
     _tTime = time(nullptr);
 }
@@ -33,8 +33,7 @@ void Block::MineBlock(uint32_t nDifficulty) {
 
 inline string Block::_CalculateHash() const {
     stringstream ss;
-    ss << _nIndex << _tTime << merkleHash << _sData << _nNonce << sPrevHash;
-
+    ss << _nIndex << _tTime << merkleHash << _nNonce << sPrevHash;
     return sha256(ss.str());
 }
 
@@ -43,7 +42,7 @@ void Block::addTransaction(Transaction _tr){
     {
         _vTransactions.push_back(_tr);
     }else{
-
+        
     }
 }
 
@@ -79,7 +78,7 @@ void Block::calculateMerkle(){
     }
     
     merkleHash = trHashes[0];
-    cout<<"merkle root : "<<merkleHash<<endl;
+//    cout<<"merkle root : "<<merkleHash<<endl;
 }
 
 unsigned int Block::numberOfTransactions(){

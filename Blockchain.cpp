@@ -2,13 +2,13 @@
 #define BLOCKSIZE 10
 
 Blockchain::Blockchain() {
-    _vChain.emplace_back(Block(0, "Genesis Block"));
-    _nDifficulty = 2;
+    _vChain.emplace_back(Block(0));
+    _nDifficulty = 1;
 }
 
 void Blockchain::AddBlock(Block bNew) {
     bNew.sPrevHash = _GetLastBlock().GetHash();
-    bNew.MineBlock(_nDifficulty);
+//    bNew.MineBlock(_nDifficulty);
     _vChain.push_back(bNew);
 }
 Block Blockchain::_GetLastBlock() const {
@@ -27,14 +27,12 @@ void Blockchain::addTransaction(Transaction tr){
             listOfTransactions.pop();
         }
         _GetCurrentBlock()->calculateMerkle();
-        int nextBlockNum = _GetLastBlock().getIndex()+1;
-        string data = "Block number " + to_string(nextBlockNum);
-        AddBlock(Block(nextBlockNum,data));
+        int nextBlockNum = _GetCurrentBlock()->getIndex()+1;
+        AddBlock(Block(nextBlockNum));
     }
 }
 
 void Blockchain::addTransactions(vector<Transaction> trs){
-    
     
     for (int i = 0; i<trs.size(); i++) {
         listOfTransactions.push(trs[i]);

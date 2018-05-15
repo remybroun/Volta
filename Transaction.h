@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include "UTXO.hpp"
 using namespace std;
 
 class Transaction {
@@ -18,7 +19,8 @@ private:
     string _sData;
     string _sHash;
     time_t _tTime;
-
+    vector<UTXO> sent;
+    
     string _CalculateHash() const;
 
 };
